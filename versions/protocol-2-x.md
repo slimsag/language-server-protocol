@@ -31,6 +31,7 @@ Workspace
 * :arrow_right: [workspace/didChangeConfiguration](#workspace_didChangeConfiguration) 
 * :arrow_right: [workspace/didChangeWatchedFiles](#workspace_didChangeWatchedFiles) 
 * :leftwards_arrow_with_hook: [workspace/symbol](#workspace_symbol) 
+* :leftwards_arrow_with_hook: [workspace/documentation](#workspace_documentation) 
 
 Document
 
@@ -1464,6 +1465,123 @@ interface WorkspaceSymbolParams {
 _Response_
 * result: `SymbolInformation[]` as defined above.
 * error: code and message set in case an exception happens during the workspace symbol request.
+
+#### <a name="workspace_documentation"></a>Workspace Documentation Request
+
+The workspace documentation request is sent from the client to the server to list project-wide documentation.
+
+_Request_
+* method: 'workspace/documentation'
+* params: `WorkspaceDocumentationParams` defined as follows:
+```typescript
+/**
+ * The parameters of a Workspace Documentation Request.
+ */
+interface WorkspaceDocumentationParams {
+	/**
+	 * An optional non-empty query string, to be matched against the `name` of
+	 * `Documentation` in the workspace. For example, a user may query `HTTP Request`
+	 * and the server may respond with the `Documentation` named `Request`
+	 * which is itself a child of `Documentation` named `HTTP`.
+	 */
+	query?: string;
+
+	/**
+	 * An optional non-empty query string for the `Documentation` with the specified ID.
+	 */
+	queryID?: number | string;
+}
+```
+
+_Response_
+* result: `Documentation?` defined as follows:
+```typescript
+/**
+ * Represents documentation for a programming construct (variable, function,
+ * etc.) or group of programming constructs in a workspace (library, package,
+ * crate, module, etc.)
+ *
+ * The language server defines the exact structure of the documentation in a
+ * way that makes sense for the specific language and concepts being described.
+ */
+interface Documentation {
+	/**
+	 * A unique identifier for this `Documentation`. It exists to allow one
+     * piece of `Documentation` to link to another piece of `Documentation` via
+     * `InteractiveString`.
+	 */
+    id: number | string;
+
+	/**
+	 * A single-line label to display for this documentation in e.g. the index
+     * of a book, e.g. the name of a group of documentation, the name of a
+     * library, the signature of a function or class, etc.
+	 */
+	label: InteractiveString;
+
+    /**
+     * Whether or not this documentation and its children describe a major
+     * chapter and clients should e.g. display it and its children on a
+     * dedicated page.
+     */
+    chapter: boolean;
+
+	/**
+     * A detailed multi-line string that contains documentation
+	 * A single-line label to display for this documentation in an index or
+     * overview section, e.g. the name of a package, the signature of a
+     * function or class, etc.
+	 */
+	detail: InteractiveString;
+
+    /**
+     * Documentation that should be logically nested below this `Documentation`
+     * itself. For example, `Documentation` may describe a class and have
+     * `children` describing each method.
+     */
+    children: Documentation[];
+}
+```
+Where `InteractiveString` is defined as follows:
+```typescript
+/**
+ * A MarkedString where some ranges of the string can be interactive by
+ * performing hover/definition/references requests to get more information.
+ */
+interface InteractiveString {
+	/**
+     * The MarkedString being described.
+	 */
+	value: MarkedString;
+
+	/**
+	 * Ranges in the `value` string that a user could perform a
+     * workspace/documentation request on with a `queryID?` equal to the
+     * associated ID value in this mapping, in order to link one piece of
+     * `Documentation` to another.
+	 */
+    documentation: { [{range: Range]: number | string };
+
+	/**
+	 * Ranges in the `value` string that a user could perform a
+     * textDocument/hover request on to get more information.
+	 */
+    hovers: { [{range: Range]: TextDocumentPositionParams };
+
+	/**
+	 * Ranges in the `value` string that a user could perform a
+     * textDocument/definition request on to get more information.
+	 */
+    definitions: { [{range: Range]: TextDocumentPositionParams };
+
+	/**
+	 * Ranges in the `value` string that a user could perform a
+     * textDocument/references request on to get more information.
+	 */
+    references: { [{range: Range]: TextDocumentPositionParams };
+}
+```
+* error: code and message set in case an exception happens during the document symbol request.
 
 #### <a name="textDocument_codeAction"></a>Code Action Request
 
