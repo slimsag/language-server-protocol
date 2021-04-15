@@ -1507,39 +1507,39 @@ _Response_
 interface Documentation {
 	/**
 	 * A unique identifier for this `Documentation`. It exists to allow one
-     * piece of `Documentation` to link to another piece of `Documentation` via
-     * `InteractiveString`.
+	 * piece of `Documentation` to link to another piece of `Documentation` via
+	 * `InteractiveString`.
 	 */
-    id: number | string;
+	id: number | string;
 
 	/**
 	 * A single-line label to display for this documentation in e.g. the index
-     * of a book, e.g. the name of a group of documentation, the name of a
-     * library, the signature of a function or class, etc.
+	 * of a book, e.g. the name of a group of documentation, the name of a
+	 * library, the signature of a function or class, etc.
 	 */
 	label: InteractiveString;
 
-    /**
-     * Whether or not this documentation and its children describe a major
-     * chapter and clients should e.g. display it and its children on a
-     * dedicated page.
-     */
-    chapter: boolean;
+	/**
+	 * Whether or not this documentation and its children describe a major
+	 * chapter and clients should e.g. display it and its children on a
+	 * dedicated page.
+	 */
+	chapter: boolean;
 
 	/**
-     * A detailed multi-line string that contains documentation
+	 * A detailed multi-line string that contains documentation
 	 * A single-line label to display for this documentation in an index or
-     * overview section, e.g. the name of a package, the signature of a
-     * function or class, etc.
+	 * overview section, e.g. the name of a package, the signature of a
+	 * function or class, etc.
 	 */
 	detail: InteractiveString;
 
-    /**
-     * Documentation that should be logically nested below this `Documentation`
-     * itself. For example, `Documentation` may describe a class and have
-     * `children` describing each method.
-     */
-    children: Documentation[];
+	/**
+	 * Documentation that should be logically nested below this `Documentation`
+	 * itself. For example, `Documentation` may describe a class and have
+	 * `children` describing each method.
+	 */
+	children: Documentation[];
 }
 ```
 Where `InteractiveString` is defined as follows:
@@ -1550,35 +1550,35 @@ Where `InteractiveString` is defined as follows:
  */
 interface InteractiveString {
 	/**
-     * The MarkedString being described.
+	 * The MarkedString being described.
 	 */
 	value: MarkedString;
 
 	/**
 	 * Ranges in the `value` string that a user could perform a
-     * workspace/documentation request on with a `queryID?` equal to the
-     * associated ID value in this mapping, in order to link one piece of
-     * `Documentation` to another.
+	 * workspace/documentation request on with a `queryID?` equal to the
+	 * associated ID value in this mapping, in order to link one piece of
+	 * `Documentation` to another.
 	 */
-    documentation: { [{range: Range]: number | string };
+	documentation: { [{range: Range]: number | string };
 
 	/**
 	 * Ranges in the `value` string that a user could perform a
-     * textDocument/hover request on to get more information.
+	 * textDocument/hover request on to get more information.
 	 */
-    hovers: { [{range: Range]: TextDocumentPositionParams };
+	hovers: { [{range: Range]: TextDocumentPositionParams };
 
 	/**
 	 * Ranges in the `value` string that a user could perform a
-     * textDocument/definition request on to get more information.
+	 * textDocument/definition request on to get more information.
 	 */
-    definitions: { [{range: Range]: TextDocumentPositionParams };
+	definitions: { [{range: Range]: TextDocumentPositionParams };
 
 	/**
 	 * Ranges in the `value` string that a user could perform a
-     * textDocument/references request on to get more information.
+	 * textDocument/references request on to get more information.
 	 */
-    references: { [{range: Range]: TextDocumentPositionParams };
+	references: { [{range: Range]: TextDocumentPositionParams };
 }
 ```
 * error: code and message set in case an exception happens during the document symbol request.
