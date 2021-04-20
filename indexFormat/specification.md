@@ -1065,6 +1065,14 @@ The `documentation` vertex is attached to a `project` vertex using a `documentat
 The definition of the `documentation` vertex looks as follows:
 
 ```ts
+/**
+ * A Documentation vertex describes hierarchial project-wide documentation.
+ * It represents documentation for a programming construct (variable, function, etc.) or group of
+ * programming constructs in a workspace (library, package, crate, module, etc.)
+ *
+ * The exact structure of the documentation depends on what makes sense for the specific language
+ * and concepts being described.
+ */
 export interface Documentation extends V {
 	/**
 	 * The label property.
